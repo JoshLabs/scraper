@@ -18,7 +18,7 @@ from eventlet.timeout import Timeout
 import scraper.settings as scraper_settings
 
 
-useragent = None
+useragent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
 
 chunk_size = 1024
 thumbnail_size = 70, 70
