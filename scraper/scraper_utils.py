@@ -401,13 +401,6 @@ class TedScraper(MediaScraper):
     media_template = '<object width="446" height="326"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf"></param><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent"></param><param name="bgColor" value="#ffffff"></param> <param name="flashvars" value="$video_id" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgColor="#ffffff" width="446" height="326" allowFullScreen="true" flashvars="$video_id"></embed></object>'
     flashvars_rx = re.compile('.*flashvars="(.*)".*')
 
-    def video_id_extract(self):
-        if "/talks/" in self.url:
-            content_type, content = fetch_url(self.url.replace("/talks/","/talks/embed/"))
-            if content:
-                m = self.flashvars_rx.match(content)
-                if m:
-                    return m.groups()[0]
     def largest_image_url(self):
         if not self.soup:
             self.download()
