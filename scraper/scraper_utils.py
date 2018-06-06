@@ -91,7 +91,7 @@ def fetch_url(url, referer = None, retries = 1, dimension = False):
             if useragent:
                 req.add_header('User-Agent', useragent)
             if referer:
-                req.add_header('Referer', referer)
+                req.add_header('Referer', clean_url(referer))
 
             open_req = urllib2.urlopen(req)
 
