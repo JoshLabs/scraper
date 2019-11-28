@@ -381,7 +381,10 @@ class YoutubeScraper(MediaScraper):
             self.download()
 
         if self.soup:
-            video_url = self.soup.find('meta', dict(property='og:video'))
+            video_url = (
+                    self.soup.find('meta', dict(property='og:video')) or
+                    self.soup.find('meta', dict(name='twitter:player'))
+            )
             if video_url:
                 video_url = video_url['content']
             else:
