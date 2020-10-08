@@ -4,6 +4,7 @@ from urllib2 import URLError, HTTPError
 from httplib import InvalidURL
 from PIL import Image
 from PIL import ImageFile
+import requests
 import urlparse
 import re
 import urllib
@@ -370,8 +371,23 @@ class YoutubeScraper(MediaScraper):
     def largest_image_url(self, default=scraper_settings.USE_YOUTUBE_THUMBNAIL_TEMPLATE):
         if default:
             # Remove the deeplink part from the video id
-            return self.thumbnail_template.replace("$video_id",
-                                                   self.video_id.split("&")[0])
+            image_url = self.thumbnail_template.replace("$video_id", self.video_id.split("&")[0])
+            if requests.get(image_url).status_code == 200:
+                return image_url
+
+            thumbnail_template = 'http://img.youtube.com/vi/$video_id/hqdefault.jpg'
+            image_url = thumbnail_template.replace("$video_id", self.video_id.split("&")[0])
+            if requests.get(image_url).status_code == 200:
+                return image_url
+
+            thumbnail_template = 'http://img.youtube.com/vi/$video_id/sqdefault.jpg'
+            image_url = thumbnail_template.replace("$video_id", self.video_id.split("&")[0])
+            if requests.get(image_url).status_code == 200:
+                return image_url
+
+            thumbnail_template = 'http://img.youtube.com/vi/$video_id/default.jpg'
+            image_url = thumbnail_template.replace("$video_id", self.video_id.split("&")[0])
+            return image_url
         else:
             self.thumbnail_template = ""
             return MediaScraper.largest_image_url(self)
